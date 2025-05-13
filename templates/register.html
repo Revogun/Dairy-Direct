@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #a855f7, #ec4899, #ef4444);
+        }
+        
+        .card {
+            width: 100%;
+            max-width: 450px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border: 2px solid #d8b4fe;
+            backdrop-filter: blur(8px);
+            overflow: hidden;
+        }
+        
+        .card-header {
+            background: linear-gradient(to right, #6366f1, #a855f7);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .card-title {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .card-description {
+            margin-top: 8px;
+            color: #f3e8ff;
+            font-size: 14px;
+        }
+        
+        .card-content {
+            padding: 50px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #7e22ce;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d8b4fe;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ec4899;
+            box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
+        }
+        
+        .error {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        
+        .card-footer {
+            padding: 0 24px 24px 24px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #ec4899, #f97316);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: linear-gradient(to right, #db2777, #ea580c);
+        }
+        
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+        
+        .flash-message {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        
+        .flash-message.success {
+            background-color: #10b981;
+            color: white;
+        }
+        
+        .flash-message.error {
+            background-color: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">Create an account</h1>
+            <p class="card-description">Enter your details below to create your account</p>
+        </div>
+        
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            
+            <div class="card-content">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                            {% for category, message in messages %}
+                                <div class="flash-message {{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                
+                <div class="form-group">
+                    {{ form.username.label }}
+                    {{ form.username(placeholder="johndoe") }}
+                    {% if form.username.errors %}
+                        {% for error in form.username.errors %}
+                            <div class="error">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.email.label }}
+                    {{ form.email(placeholder="john@example.com") }}
+                    {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                            <div class="error">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.phone.label }}
+                    {{ form.phone(placeholder="+1 (555) 000-0000") }}
+                    {% if form.phone.errors %}
+                        {% for error in form.phone.errors %}
+                            <div class="error">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.password.label }}
+                    {{ form.password() }}
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                            <div class="error">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.user_type.label }}
+                    {{ form.user_type() }}
+                    {% if form.user_type.errors %}
+                        {% for error in form.user_type.errors %}
+                            <div class="error">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="card-footer">
+                {{ form.submit(class="submit-button") }}
+            </div>
+        </form>
+    </div>
+</body>
+</html>
